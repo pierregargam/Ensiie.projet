@@ -1,0 +1,38 @@
+﻿@model IEnumerable<Ensiie.projet3.Models.stat_light_>
+
+@{
+    ViewBag.Title = "Index";
+
+    Ensiie.projet3.Models.access a = new Ensiie.projet3.Models.access();
+}
+
+<h2>Statistiques du RSE</h2>
+
+<table>
+    <tr>
+        <th>
+            Vues
+        </th>
+        <th>
+            Thème
+        </th>
+        <th>
+            Nombre de commentaires
+        </th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.nombre_vues)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.texte)
+        </td>
+        <td>
+            @(a.stat_theme((int)item.theme_id))
+        </td>
+    </tr>
+}
+
+</table>

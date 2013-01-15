@@ -1,0 +1,22 @@
+﻿@model Ensiie.projet3.Models.Theme_
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h3><font  color="red">Voulez-vous supprimer ce thème?</font></h3>
+<h6>Cela supprimera également tous les messages ainsi que les différents abonnements à ce thème.</h6>
+<fieldset>
+    <legend>Thème</legend>
+    <strong>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.texte)
+    </div>
+    </strong>
+</fieldset>
+@using (Html.BeginForm()) {
+    <p>
+        <input type="submit" value="Delete" /> |
+        @Html.ActionLink("Back to List", "Index")
+    </p>
+}

@@ -1,0 +1,882 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="2.0" xmlns:edmx="http://schemas.microsoft.com/ado/2008/10/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="testModel1.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+        <EntityContainer Name="testModel1StoreContainer">
+          <EntitySet Name="Abonnement" EntityType="testModel1.Store.Abonnement" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Agent" EntityType="testModel1.Store.Agent" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Avis_news" EntityType="testModel1.Store.Avis_news" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Commentaire" EntityType="testModel1.Store.Commentaire" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Like_news" EntityType="testModel1.Store.Like_news" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Message" EntityType="testModel1.Store.Message" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="News" EntityType="testModel1.Store.News" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Stat" EntityType="testModel1.Store.Stat" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Theme" EntityType="testModel1.Store.Theme" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Type" EntityType="testModel1.Store.Type" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="stat_light" EntityType="testModel1.Store.stat_light" store:Type="Views" store:Schema="dbo" store:Name="stat_light">
+            <DefiningQuery>SELECT 
+      [stat_light].[texte] AS [texte], 
+      [stat_light].[nombre_vues] AS [nombre_vues], 
+      [stat_light].[theme_id] AS [theme_id]
+      FROM [dbo].[stat_light] AS [stat_light]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="fk_agent" Association="testModel1.Store.fk_agent">
+            <End Role="Type" EntitySet="Type" />
+            <End Role="Agent" EntitySet="Agent" />
+          </AssociationSet>
+          <AssociationSet Name="fk_avis_collaborateur" Association="testModel1.Store.fk_avis_collaborateur">
+            <End Role="Agent" EntitySet="Agent" />
+            <End Role="Avis_news" EntitySet="Avis_news" />
+          </AssociationSet>
+          <AssociationSet Name="fk_avis_news" Association="testModel1.Store.fk_avis_news">
+            <End Role="News" EntitySet="News" />
+            <End Role="Avis_news" EntitySet="Avis_news" />
+          </AssociationSet>
+          <AssociationSet Name="fk_collaborateur_id_abonnement" Association="testModel1.Store.fk_collaborateur_id_abonnement">
+            <End Role="Agent" EntitySet="Agent" />
+            <End Role="Abonnement" EntitySet="Abonnement" />
+          </AssociationSet>
+          <AssociationSet Name="fk_comm_theme_id" Association="testModel1.Store.fk_comm_theme_id">
+            <End Role="Theme" EntitySet="Theme" />
+            <End Role="Commentaire" EntitySet="Commentaire" />
+          </AssociationSet>
+          <AssociationSet Name="fk_commentaire_collaborateur" Association="testModel1.Store.fk_commentaire_collaborateur">
+            <End Role="Agent" EntitySet="Agent" />
+            <End Role="Commentaire" EntitySet="Commentaire" />
+          </AssociationSet>
+          <AssociationSet Name="fk_like_news_collaborateur" Association="testModel1.Store.fk_like_news_collaborateur">
+            <End Role="Agent" EntitySet="Agent" />
+            <End Role="Like_news" EntitySet="Like_news" />
+          </AssociationSet>
+          <AssociationSet Name="fk_like_news_news" Association="testModel1.Store.fk_like_news_news">
+            <End Role="News" EntitySet="News" />
+            <End Role="Like_news" EntitySet="Like_news" />
+          </AssociationSet>
+          <AssociationSet Name="fk_message_collaborateur" Association="testModel1.Store.fk_message_collaborateur">
+            <End Role="Agent" EntitySet="Agent" />
+            <End Role="Message" EntitySet="Message" />
+          </AssociationSet>
+          <AssociationSet Name="fk_message_id" Association="testModel1.Store.fk_message_id">
+            <End Role="Message" EntitySet="Message" />
+            <End Role="Commentaire" EntitySet="Commentaire" />
+          </AssociationSet>
+          <AssociationSet Name="fk_news_collaborateur" Association="testModel1.Store.fk_news_collaborateur">
+            <End Role="Agent" EntitySet="Agent" />
+            <End Role="News" EntitySet="News" />
+          </AssociationSet>
+          <AssociationSet Name="fk_theme_id" Association="testModel1.Store.fk_theme_id">
+            <End Role="Theme" EntitySet="Theme" />
+            <End Role="Message" EntitySet="Message" />
+          </AssociationSet>
+          <AssociationSet Name="fk_theme_id_abonnement" Association="testModel1.Store.fk_theme_id_abonnement">
+            <End Role="Theme" EntitySet="Theme" />
+            <End Role="Abonnement" EntitySet="Abonnement" />
+          </AssociationSet>
+          <AssociationSet Name="fk_theme_id_stat" Association="testModel1.Store.fk_theme_id_stat">
+            <End Role="Theme" EntitySet="Theme" />
+            <End Role="Stat" EntitySet="Stat" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Abonnement">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="theme_id" Type="int" />
+          <Property Name="collaborateur_id" Type="int" />
+        </EntityType>
+        <EntityType Name="Agent">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="varchar" Nullable="false" MaxLength="20" />
+          <Property Name="first_name" Type="varchar" Nullable="false" MaxLength="20" />
+          <Property Name="type" Type="int" Nullable="false" />
+          <Property Name="dating" Type="datetime" />
+          <Property Name="password" Type="varchar" Nullable="false" MaxLength="20" />
+        </EntityType>
+        <EntityType Name="Avis_news">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="collaborateur_id" Type="int" />
+          <Property Name="news_id" Type="int" />
+          <Property Name="texte" Type="varchar" Nullable="false" MaxLength="250" />
+        </EntityType>
+        <EntityType Name="Commentaire">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="theme_id" Type="int" />
+          <Property Name="message_id" Type="int" />
+          <Property Name="collaborateur_id" Type="int" />
+          <Property Name="texte" Type="text" Nullable="false" />
+          <Property Name="dating" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Like_news">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="collaborateur_id" Type="int" />
+          <Property Name="news_id" Type="int" />
+        </EntityType>
+        <EntityType Name="Message">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="theme_id" Type="int" />
+          <Property Name="collaborateur_id" Type="int" />
+          <Property Name="texte" Type="text" Nullable="false" />
+          <Property Name="dating" Type="datetime" />
+        </EntityType>
+        <EntityType Name="News">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="texte" Type="varchar" Nullable="false" MaxLength="250" />
+          <Property Name="dating" Type="datetime" />
+          <Property Name="collaborateur_id" Type="int" />
+        </EntityType>
+        <EntityType Name="Stat">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="theme_id" Type="int" />
+          <Property Name="nombre_vues" Type="int" />
+        </EntityType>
+        <EntityType Name="Theme">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="texte" Type="varchar" Nullable="false" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="Type">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="type" Type="varchar" Nullable="false" MaxLength="20" />
+        </EntityType>
+        <!--Errors Found During Generation:
+      warning 6002: The table/view 'C:\USERS\YANN\DOCUMENTS\VISUAL STUDIO 2010\PROJECTS\ENSIIE.PROJET3\ENSIIE.PROJET3\APP_DATA\TEST.MDF.dbo.stat_light' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
+      -->
+        <EntityType Name="stat_light">
+          <Key>
+            <PropertyRef Name="texte" />
+          </Key>
+          <Property Name="texte" Type="varchar" Nullable="false" MaxLength="100" />
+          <Property Name="nombre_vues" Type="int" />
+          <Property Name="theme_id" Type="int" />
+        </EntityType>
+        <Association Name="fk_agent">
+          <End Role="Type" Type="testModel1.Store.Type" Multiplicity="1" />
+          <End Role="Agent" Type="testModel1.Store.Agent" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Type">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Agent">
+              <PropertyRef Name="type" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_avis_collaborateur">
+          <End Role="Agent" Type="testModel1.Store.Agent" Multiplicity="0..1" />
+          <End Role="Avis_news" Type="testModel1.Store.Avis_news" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Agent">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Avis_news">
+              <PropertyRef Name="collaborateur_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_avis_news">
+          <End Role="News" Type="testModel1.Store.News" Multiplicity="0..1" />
+          <End Role="Avis_news" Type="testModel1.Store.Avis_news" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="News">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Avis_news">
+              <PropertyRef Name="news_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_collaborateur_id_abonnement">
+          <End Role="Agent" Type="testModel1.Store.Agent" Multiplicity="0..1" />
+          <End Role="Abonnement" Type="testModel1.Store.Abonnement" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Agent">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Abonnement">
+              <PropertyRef Name="collaborateur_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_comm_theme_id">
+          <End Role="Theme" Type="testModel1.Store.Theme" Multiplicity="0..1" />
+          <End Role="Commentaire" Type="testModel1.Store.Commentaire" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Theme">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Commentaire">
+              <PropertyRef Name="theme_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_commentaire_collaborateur">
+          <End Role="Agent" Type="testModel1.Store.Agent" Multiplicity="0..1" />
+          <End Role="Commentaire" Type="testModel1.Store.Commentaire" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Agent">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Commentaire">
+              <PropertyRef Name="collaborateur_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_like_news_collaborateur">
+          <End Role="Agent" Type="testModel1.Store.Agent" Multiplicity="0..1" />
+          <End Role="Like_news" Type="testModel1.Store.Like_news" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Agent">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Like_news">
+              <PropertyRef Name="collaborateur_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_like_news_news">
+          <End Role="News" Type="testModel1.Store.News" Multiplicity="0..1" />
+          <End Role="Like_news" Type="testModel1.Store.Like_news" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="News">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Like_news">
+              <PropertyRef Name="news_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_message_collaborateur">
+          <End Role="Agent" Type="testModel1.Store.Agent" Multiplicity="0..1" />
+          <End Role="Message" Type="testModel1.Store.Message" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Agent">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Message">
+              <PropertyRef Name="collaborateur_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_message_id">
+          <End Role="Message" Type="testModel1.Store.Message" Multiplicity="0..1" />
+          <End Role="Commentaire" Type="testModel1.Store.Commentaire" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Message">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Commentaire">
+              <PropertyRef Name="message_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_news_collaborateur">
+          <End Role="Agent" Type="testModel1.Store.Agent" Multiplicity="0..1" />
+          <End Role="News" Type="testModel1.Store.News" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Agent">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="News">
+              <PropertyRef Name="collaborateur_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_theme_id">
+          <End Role="Theme" Type="testModel1.Store.Theme" Multiplicity="0..1" />
+          <End Role="Message" Type="testModel1.Store.Message" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Theme">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Message">
+              <PropertyRef Name="theme_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_theme_id_abonnement">
+          <End Role="Theme" Type="testModel1.Store.Theme" Multiplicity="0..1" />
+          <End Role="Abonnement" Type="testModel1.Store.Abonnement" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Theme">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Abonnement">
+              <PropertyRef Name="theme_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_theme_id_stat">
+          <End Role="Theme" Type="testModel1.Store.Theme" Multiplicity="0..1" />
+          <End Role="Stat" Type="testModel1.Store.Stat" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Theme">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Stat">
+              <PropertyRef Name="theme_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="testModel1" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+        <EntityContainer Name="testEntities8" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Abonnement" EntityType="testModel1.Abonnement_" />
+          <EntitySet Name="Agent" EntityType="testModel1.Agent_" />
+          <EntitySet Name="Avis_news" EntityType="testModel1.Avis_news_" />
+          <EntitySet Name="Commentaire" EntityType="testModel1.Commentaire_" />
+          <EntitySet Name="Like_news" EntityType="testModel1.Like_news_" />
+          <EntitySet Name="Message" EntityType="testModel1.Message_" />
+          <EntitySet Name="News" EntityType="testModel1.News_" />
+          <EntitySet Name="Stat" EntityType="testModel1.Stat_" />
+          <EntitySet Name="Theme" EntityType="testModel1.Theme_" />
+          <EntitySet Name="Type" EntityType="testModel1.Type_" />
+          <EntitySet Name="stat_light" EntityType="testModel1.stat_light_" />
+          <AssociationSet Name="fk_collaborateur_id_abonnement" Association="testModel1.fk_collaborateur_id_abonnement">
+            <End Role="Agent" EntitySet="Agent" />
+            <End Role="Abonnement" EntitySet="Abonnement" />
+          </AssociationSet>
+          <AssociationSet Name="fk_theme_id_abonnement" Association="testModel1.fk_theme_id_abonnement">
+            <End Role="Theme" EntitySet="Theme" />
+            <End Role="Abonnement" EntitySet="Abonnement" />
+          </AssociationSet>
+          <AssociationSet Name="fk_agent" Association="testModel1.fk_agent">
+            <End Role="Type" EntitySet="Type" />
+            <End Role="Agent" EntitySet="Agent" />
+          </AssociationSet>
+          <AssociationSet Name="fk_avis_collaborateur" Association="testModel1.fk_avis_collaborateur">
+            <End Role="Agent" EntitySet="Agent" />
+            <End Role="Avis_news" EntitySet="Avis_news" />
+          </AssociationSet>
+          <AssociationSet Name="fk_commentaire_collaborateur" Association="testModel1.fk_commentaire_collaborateur">
+            <End Role="Agent" EntitySet="Agent" />
+            <End Role="Commentaire" EntitySet="Commentaire" />
+          </AssociationSet>
+          <AssociationSet Name="fk_like_news_collaborateur" Association="testModel1.fk_like_news_collaborateur">
+            <End Role="Agent" EntitySet="Agent" />
+            <End Role="Like_news" EntitySet="Like_news" />
+          </AssociationSet>
+          <AssociationSet Name="fk_message_collaborateur" Association="testModel1.fk_message_collaborateur">
+            <End Role="Agent" EntitySet="Agent" />
+            <End Role="Message" EntitySet="Message" />
+          </AssociationSet>
+          <AssociationSet Name="fk_poster_news_collaborateur" Association="testModel1.fk_poster_news_collaborateur">
+            <End Role="Agent" EntitySet="Agent" />
+            <End Role="News" EntitySet="News" />
+          </AssociationSet>
+          <AssociationSet Name="fk_avis_news" Association="testModel1.fk_avis_news">
+            <End Role="News" EntitySet="News" />
+            <End Role="Avis_news" EntitySet="Avis_news" />
+          </AssociationSet>
+          <AssociationSet Name="fk_comm_theme_id" Association="testModel1.fk_comm_theme_id">
+            <End Role="Theme" EntitySet="Theme" />
+            <End Role="Commentaire" EntitySet="Commentaire" />
+          </AssociationSet>
+          <AssociationSet Name="fk_message_id" Association="testModel1.fk_message_id">
+            <End Role="Message" EntitySet="Message" />
+            <End Role="Commentaire" EntitySet="Commentaire" />
+          </AssociationSet>
+          <AssociationSet Name="fk_like_news_news" Association="testModel1.fk_like_news_news">
+            <End Role="News" EntitySet="News" />
+            <End Role="Like_news" EntitySet="Like_news" />
+          </AssociationSet>
+          <AssociationSet Name="fk_theme_id" Association="testModel1.fk_theme_id">
+            <End Role="Theme" EntitySet="Theme" />
+            <End Role="Message" EntitySet="Message" />
+          </AssociationSet>
+          <AssociationSet Name="fk_theme_id_stat" Association="testModel1.fk_theme_id_stat">
+            <End Role="Theme" EntitySet="Theme" />
+            <End Role="Stat" EntitySet="Stat" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Abonnement_">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="theme_id" Type="Int32" />
+          <Property Name="collaborateur_id" Type="Int32" />
+          <NavigationProperty Name="Agent" Relationship="testModel1.fk_collaborateur_id_abonnement" FromRole="Abonnement" ToRole="Agent" />
+          <NavigationProperty Name="Theme" Relationship="testModel1.fk_theme_id_abonnement" FromRole="Abonnement" ToRole="Theme" />
+        </EntityType>
+        <EntityType Name="Agent_">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" Nullable="false" MaxLength="20" Unicode="false" FixedLength="false" />
+          <Property Name="first_name" Type="String" Nullable="false" MaxLength="20" Unicode="false" FixedLength="false" />
+          <Property Name="type" Type="Int32" Nullable="false" />
+          <Property Name="password" Type="String" Nullable="false" MaxLength="20" Unicode="false" FixedLength="false" />
+          <NavigationProperty Name="Abonnement" Relationship="testModel1.fk_collaborateur_id_abonnement" FromRole="Agent" ToRole="Abonnement" />
+          <NavigationProperty Name="Type1" Relationship="testModel1.fk_agent" FromRole="Agent" ToRole="Type" />
+          <NavigationProperty Name="Avis_news" Relationship="testModel1.fk_avis_collaborateur" FromRole="Agent" ToRole="Avis_news" />
+          <NavigationProperty Name="Commentaire" Relationship="testModel1.fk_commentaire_collaborateur" FromRole="Agent" ToRole="Commentaire" />
+          <NavigationProperty Name="Like_news" Relationship="testModel1.fk_like_news_collaborateur" FromRole="Agent" ToRole="Like_news" />
+          <NavigationProperty Name="Message" Relationship="testModel1.fk_message_collaborateur" FromRole="Agent" ToRole="Message" />
+          <NavigationProperty Name="News" Relationship="testModel1.fk_poster_news_collaborateur" FromRole="Agent" ToRole="News" />
+          <Property Type="DateTime" Name="dating" />
+        </EntityType>
+        <EntityType Name="Avis_news_">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="collaborateur_id" Type="Int32" />
+          <Property Name="news_id" Type="Int32" />
+          <Property Name="texte" Type="String" Nullable="false" MaxLength="250" Unicode="false" FixedLength="false" />
+          <NavigationProperty Name="Agent" Relationship="testModel1.fk_avis_collaborateur" FromRole="Avis_news" ToRole="Agent" />
+          <NavigationProperty Name="News" Relationship="testModel1.fk_avis_news" FromRole="Avis_news" ToRole="News" />
+        </EntityType>
+        <EntityType Name="Commentaire_">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="theme_id" Type="Int32" />
+          <Property Name="message_id" Type="Int32" />
+          <Property Name="collaborateur_id" Type="Int32" />
+          <Property Name="texte" Type="String" Nullable="false" MaxLength="Max" Unicode="false" FixedLength="false" />
+          <NavigationProperty Name="Agent" Relationship="testModel1.fk_commentaire_collaborateur" FromRole="Commentaire" ToRole="Agent" />
+          <NavigationProperty Name="Theme" Relationship="testModel1.fk_comm_theme_id" FromRole="Commentaire" ToRole="Theme" />
+          <NavigationProperty Name="Message" Relationship="testModel1.fk_message_id" FromRole="Commentaire" ToRole="Message" />
+          <Property Type="DateTime" Name="dating" />
+        </EntityType>
+        <EntityType Name="Like_news_">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="collaborateur_id" Type="Int32" />
+          <Property Name="news_id" Type="Int32" />
+          <NavigationProperty Name="Agent" Relationship="testModel1.fk_like_news_collaborateur" FromRole="Like_news" ToRole="Agent" />
+          <NavigationProperty Name="News" Relationship="testModel1.fk_like_news_news" FromRole="Like_news" ToRole="News" />
+        </EntityType>
+        <EntityType Name="Message_">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="theme_id" Type="Int32" />
+          <Property Name="collaborateur_id" Type="Int32" />
+          <Property Name="texte" Type="String" Nullable="false" MaxLength="Max" Unicode="false" FixedLength="false" />
+          <NavigationProperty Name="Agent" Relationship="testModel1.fk_message_collaborateur" FromRole="Message" ToRole="Agent" />
+          <NavigationProperty Name="Commentaire" Relationship="testModel1.fk_message_id" FromRole="Message" ToRole="Commentaire" />
+          <NavigationProperty Name="Theme" Relationship="testModel1.fk_theme_id" FromRole="Message" ToRole="Theme" />
+          <Property Type="DateTime" Name="dating" />
+        </EntityType>
+        <EntityType Name="News_">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="texte" Type="String" Nullable="false" MaxLength="250" Unicode="false" FixedLength="false" />
+          <Property Name="collaborateur_id" Type="Int32" />
+          <NavigationProperty Name="Agent" Relationship="testModel1.fk_poster_news_collaborateur" FromRole="News" ToRole="Agent" />
+          <NavigationProperty Name="Avis_news" Relationship="testModel1.fk_avis_news" FromRole="News" ToRole="Avis_news" />
+          <NavigationProperty Name="Like_news" Relationship="testModel1.fk_like_news_news" FromRole="News" ToRole="Like_news" />
+          <Property Type="DateTime" Name="dating" />
+        </EntityType>
+        <EntityType Name="Stat_">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="theme_id" Type="Int32" />
+          <Property Name="nombre_vues" Type="Int32" />
+          <NavigationProperty Name="Theme" Relationship="testModel1.fk_theme_id_stat" FromRole="Stat" ToRole="Theme" />
+        </EntityType>
+        <EntityType Name="Theme_">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="texte" Type="String" Nullable="false" MaxLength="100" Unicode="false" FixedLength="false" />
+          <NavigationProperty Name="Abonnement" Relationship="testModel1.fk_theme_id_abonnement" FromRole="Theme" ToRole="Abonnement" />
+          <NavigationProperty Name="Commentaire" Relationship="testModel1.fk_comm_theme_id" FromRole="Theme" ToRole="Commentaire" />
+          <NavigationProperty Name="Message" Relationship="testModel1.fk_theme_id" FromRole="Theme" ToRole="Message" />
+          <NavigationProperty Name="Stat" Relationship="testModel1.fk_theme_id_stat" FromRole="Theme" ToRole="Stat" />
+        </EntityType>
+        <EntityType Name="Type_">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="type1" Type="String" Nullable="false" MaxLength="20" Unicode="false" FixedLength="false" />
+          <NavigationProperty Name="Agent" Relationship="testModel1.fk_agent" FromRole="Type" ToRole="Agent" />
+        </EntityType>
+        <EntityType Name="stat_light_">
+          <Key>
+            <PropertyRef Name="texte" />
+          </Key>
+          <Property Name="texte" Type="String" Nullable="false" MaxLength="100" Unicode="false" FixedLength="false" />
+          <Property Name="nombre_vues" Type="Int32" />
+          <Property Name="theme_id" Type="Int32" />
+        </EntityType>
+        <Association Name="fk_collaborateur_id_abonnement">
+          <End Role="Agent" Type="testModel1.Agent_" Multiplicity="0..1" />
+          <End Role="Abonnement" Type="testModel1.Abonnement_" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Agent">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Abonnement">
+              <PropertyRef Name="collaborateur_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_theme_id_abonnement">
+          <End Role="Theme" Type="testModel1.Theme_" Multiplicity="0..1" />
+          <End Role="Abonnement" Type="testModel1.Abonnement_" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Theme">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Abonnement">
+              <PropertyRef Name="theme_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_agent">
+          <End Role="Type" Type="testModel1.Type_" Multiplicity="1" />
+          <End Role="Agent" Type="testModel1.Agent_" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Type">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Agent">
+              <PropertyRef Name="type" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_avis_collaborateur">
+          <End Role="Agent" Type="testModel1.Agent_" Multiplicity="0..1" />
+          <End Role="Avis_news" Type="testModel1.Avis_news_" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Agent">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Avis_news">
+              <PropertyRef Name="collaborateur_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_commentaire_collaborateur">
+          <End Role="Agent" Type="testModel1.Agent_" Multiplicity="0..1" />
+          <End Role="Commentaire" Type="testModel1.Commentaire_" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Agent">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Commentaire">
+              <PropertyRef Name="collaborateur_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_like_news_collaborateur">
+          <End Role="Agent" Type="testModel1.Agent_" Multiplicity="0..1" />
+          <End Role="Like_news" Type="testModel1.Like_news_" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Agent">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Like_news">
+              <PropertyRef Name="collaborateur_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_message_collaborateur">
+          <End Role="Agent" Type="testModel1.Agent_" Multiplicity="0..1" />
+          <End Role="Message" Type="testModel1.Message_" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Agent">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Message">
+              <PropertyRef Name="collaborateur_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_poster_news_collaborateur">
+          <End Role="Agent" Type="testModel1.Agent_" Multiplicity="0..1" />
+          <End Role="News" Type="testModel1.News_" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Agent">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="News">
+              <PropertyRef Name="collaborateur_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_avis_news">
+          <End Role="News" Type="testModel1.News_" Multiplicity="0..1" />
+          <End Role="Avis_news" Type="testModel1.Avis_news_" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="News">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Avis_news">
+              <PropertyRef Name="news_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_comm_theme_id">
+          <End Role="Theme" Type="testModel1.Theme_" Multiplicity="0..1" />
+          <End Role="Commentaire" Type="testModel1.Commentaire_" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Theme">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Commentaire">
+              <PropertyRef Name="theme_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_message_id">
+          <End Role="Message" Type="testModel1.Message_" Multiplicity="0..1" />
+          <End Role="Commentaire" Type="testModel1.Commentaire_" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Message">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Commentaire">
+              <PropertyRef Name="message_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_like_news_news">
+          <End Role="News" Type="testModel1.News_" Multiplicity="0..1" />
+          <End Role="Like_news" Type="testModel1.Like_news_" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="News">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Like_news">
+              <PropertyRef Name="news_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_theme_id">
+          <End Role="Theme" Type="testModel1.Theme_" Multiplicity="0..1" />
+          <End Role="Message" Type="testModel1.Message_" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Theme">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Message">
+              <PropertyRef Name="theme_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_theme_id_stat">
+          <End Role="Theme" Type="testModel1.Theme_" Multiplicity="0..1" />
+          <End Role="Stat" Type="testModel1.Stat_" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Theme">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Stat">
+              <PropertyRef Name="theme_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="testModel1StoreContainer" CdmEntityContainer="testEntities8">
+          <EntitySetMapping Name="Abonnement"><EntityTypeMapping TypeName="testModel1.Abonnement_"><MappingFragment StoreEntitySet="Abonnement">
+            <ScalarProperty Name="id" ColumnName="id" />
+            <ScalarProperty Name="theme_id" ColumnName="theme_id" />
+            <ScalarProperty Name="collaborateur_id" ColumnName="collaborateur_id" />
+          </MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <EntitySetMapping Name="Agent"><EntityTypeMapping TypeName="testModel1.Agent_"><MappingFragment StoreEntitySet="Agent">
+            <ScalarProperty Name="dating" ColumnName="dating" />
+                <ScalarProperty Name="id" ColumnName="id" />
+            <ScalarProperty Name="name" ColumnName="name" />
+            <ScalarProperty Name="first_name" ColumnName="first_name" />
+            <ScalarProperty Name="type" ColumnName="type" />
+            <ScalarProperty Name="password" ColumnName="password" />
+          </MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <EntitySetMapping Name="Avis_news"><EntityTypeMapping TypeName="testModel1.Avis_news_"><MappingFragment StoreEntitySet="Avis_news">
+            <ScalarProperty Name="id" ColumnName="id" />
+            <ScalarProperty Name="collaborateur_id" ColumnName="collaborateur_id" />
+            <ScalarProperty Name="news_id" ColumnName="news_id" />
+            <ScalarProperty Name="texte" ColumnName="texte" />
+          </MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <EntitySetMapping Name="Commentaire"><EntityTypeMapping TypeName="testModel1.Commentaire_"><MappingFragment StoreEntitySet="Commentaire">
+            <ScalarProperty Name="dating" ColumnName="dating" />
+                <ScalarProperty Name="id" ColumnName="id" />
+            <ScalarProperty Name="theme_id" ColumnName="theme_id" />
+            <ScalarProperty Name="message_id" ColumnName="message_id" />
+            <ScalarProperty Name="collaborateur_id" ColumnName="collaborateur_id" />
+            <ScalarProperty Name="texte" ColumnName="texte" />
+          </MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <EntitySetMapping Name="Like_news"><EntityTypeMapping TypeName="testModel1.Like_news_"><MappingFragment StoreEntitySet="Like_news">
+            <ScalarProperty Name="id" ColumnName="id" />
+            <ScalarProperty Name="collaborateur_id" ColumnName="collaborateur_id" />
+            <ScalarProperty Name="news_id" ColumnName="news_id" />
+          </MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <EntitySetMapping Name="Message"><EntityTypeMapping TypeName="testModel1.Message_"><MappingFragment StoreEntitySet="Message">
+            <ScalarProperty Name="dating" ColumnName="dating" />
+                <ScalarProperty Name="id" ColumnName="id" />
+            <ScalarProperty Name="theme_id" ColumnName="theme_id" />
+            <ScalarProperty Name="collaborateur_id" ColumnName="collaborateur_id" />
+            <ScalarProperty Name="texte" ColumnName="texte" />
+          </MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <EntitySetMapping Name="News"><EntityTypeMapping TypeName="testModel1.News_"><MappingFragment StoreEntitySet="News">
+            <ScalarProperty Name="dating" ColumnName="dating" />
+                <ScalarProperty Name="id" ColumnName="id" />
+            <ScalarProperty Name="texte" ColumnName="texte" />
+            <ScalarProperty Name="collaborateur_id" ColumnName="collaborateur_id" />
+          </MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <EntitySetMapping Name="Stat"><EntityTypeMapping TypeName="testModel1.Stat_"><MappingFragment StoreEntitySet="Stat">
+            <ScalarProperty Name="id" ColumnName="id" />
+            <ScalarProperty Name="theme_id" ColumnName="theme_id" />
+            <ScalarProperty Name="nombre_vues" ColumnName="nombre_vues" />
+          </MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <EntitySetMapping Name="Theme"><EntityTypeMapping TypeName="testModel1.Theme_"><MappingFragment StoreEntitySet="Theme">
+            <ScalarProperty Name="id" ColumnName="id" />
+            <ScalarProperty Name="texte" ColumnName="texte" />
+          </MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <EntitySetMapping Name="Type"><EntityTypeMapping TypeName="testModel1.Type_"><MappingFragment StoreEntitySet="Type">
+            <ScalarProperty Name="id" ColumnName="id" />
+            <ScalarProperty Name="type1" ColumnName="type" />
+          </MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <EntitySetMapping Name="stat_light"><EntityTypeMapping TypeName="testModel1.stat_light_"><MappingFragment StoreEntitySet="stat_light">
+            <ScalarProperty Name="texte" ColumnName="texte" />
+            <ScalarProperty Name="nombre_vues" ColumnName="nombre_vues" />
+            <ScalarProperty Name="theme_id" ColumnName="theme_id" />
+          </MappingFragment></EntityTypeMapping></EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2008/10/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="False" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams>
+      <Diagram Name="Model2">
+        <EntityTypeShape EntityType="testModel1.Abonnement_" Width="1.5" PointX="0.75" PointY="7.875" Height="1.9802864583333353" IsExpanded="true" />
+        <EntityTypeShape EntityType="testModel1.Agent_" Width="1.5" PointX="3" PointY="8.375" Height="3.5186979166666656" IsExpanded="true" />
+        <EntityTypeShape EntityType="testModel1.Avis_news_" Width="1.5" PointX="7.5" PointY="10.5" Height="2.172587890624996" IsExpanded="true" />
+        <EntityTypeShape EntityType="testModel1.Commentaire_" Width="1.5" PointX="8.25" PointY="7.375" Height="2.7494921874999996" IsExpanded="true" />
+        <EntityTypeShape EntityType="testModel1.Like_news_" Width="1.5" PointX="4.625" PointY="14.375" Height="1.9802864583333317" IsExpanded="true" />
+        <EntityTypeShape EntityType="testModel1.Message_" Width="1.5" PointX="5.625" PointY="7.375" Height="2.5571907552083335" IsExpanded="true" />
+        <EntityTypeShape EntityType="testModel1.News_" Width="1.5" PointX="7.5" PointY="13.125" Height="2.3648893229166674" IsExpanded="true" />
+        <EntityTypeShape EntityType="testModel1.Stat_" Width="1.5" PointX="0.75" PointY="5.25" Height="1.7879850260416674" IsExpanded="true" />
+        <EntityTypeShape EntityType="testModel1.Theme_" Width="1.5" PointX="3.25" PointY="5.125" Height="2.1725878906249996" IsExpanded="true" />
+        <EntityTypeShape EntityType="testModel1.Type_" Width="1.5" PointX="0.75" PointY="10.25" Height="1.5956835937499996" IsExpanded="true" />
+        <EntityTypeShape EntityType="testModel1.stat_light_" Width="1.5" PointX="8.75" PointY="5" Height="1.5956835937500031" IsExpanded="true" />
+        <AssociationConnector Association="testModel1.fk_collaborateur_id_abonnement" ManuallyRouted="false">
+          <ConnectorPoint PointX="3" PointY="9.1151432291666676" />
+          <ConnectorPoint PointX="2.25" PointY="9.1151432291666676" />
+        </AssociationConnector>
+        <AssociationConnector Association="testModel1.fk_theme_id_abonnement" ManuallyRouted="false">
+          <ConnectorPoint PointX="4.65625" PointY="7.297587890625" />
+          <ConnectorPoint PointX="4.65625" PointY="8.09375" />
+          <ConnectorPoint PointX="2.25" PointY="8.09375" />
+        </AssociationConnector>
+        <AssociationConnector Association="testModel1.fk_agent" ManuallyRouted="false">
+          <ConnectorPoint PointX="2.25" PointY="11.047841796875" />
+          <ConnectorPoint PointX="3" PointY="11.047841796875" />
+        </AssociationConnector>
+        <AssociationConnector Association="testModel1.fk_avis_collaborateur" ManuallyRouted="false">
+          <ConnectorPoint PointX="4.5" PointY="11.196848958333334" />
+          <ConnectorPoint PointX="7.5" PointY="11.196848958333334" />
+        </AssociationConnector>
+        <AssociationConnector Association="testModel1.fk_commentaire_collaborateur" ManuallyRouted="false">
+          <ConnectorPoint PointX="4.5" PointY="10.059591471354166" />
+          <ConnectorPoint PointX="8.25" PointY="10.059591471354166" />
+        </AssociationConnector>
+        <AssociationConnector Association="testModel1.fk_like_news_collaborateur" ManuallyRouted="false">
+          <ConnectorPoint PointX="3.75" PointY="11.893697916666666" />
+          <ConnectorPoint PointX="3.75" PointY="15.365143229166666" />
+          <ConnectorPoint PointX="4.625" PointY="15.365143229166666" />
+        </AssociationConnector>
+        <AssociationConnector Association="testModel1.fk_message_collaborateur" ManuallyRouted="false">
+          <ConnectorPoint PointX="4.5" PointY="9.1535953776041659" />
+          <ConnectorPoint PointX="5.625" PointY="9.1535953776041659" />
+        </AssociationConnector>
+        <AssociationConnector Association="testModel1.fk_poster_news_collaborateur" ManuallyRouted="false">
+          <ConnectorPoint PointX="4.1562525" PointY="11.893697916666666" />
+          <ConnectorPoint PointX="4.1562525" PointY="13.71875" />
+          <ConnectorPoint PointX="7.5" PointY="13.71875" />
+        </AssociationConnector>
+        <AssociationConnector Association="testModel1.fk_avis_news" ManuallyRouted="false">
+          <ConnectorPoint PointX="8.25" PointY="13.125" />
+          <ConnectorPoint PointX="8.25" PointY="12.672587890624996" />
+        </AssociationConnector>
+        <AssociationConnector Association="testModel1.fk_comm_theme_id" ManuallyRouted="false">
+          <ConnectorPoint PointX="4.75" PointY="6.9778857421875014" />
+          <ConnectorPoint PointX="6.291666666666667" PointY="6.9778857421875005" />
+          <ConnectorPoint PointX="6.458333333333333" PointY="6.9778857421875014" />
+          <ConnectorPoint PointX="8.46875" PointY="6.9778857421875014" />
+          <ConnectorPoint PointX="8.46875" PointY="7.375" />
+        </AssociationConnector>
+        <AssociationConnector Association="testModel1.fk_message_id" ManuallyRouted="false">
+          <ConnectorPoint PointX="7.125" PointY="8.6535953776041659" />
+          <ConnectorPoint PointX="8.25" PointY="8.6535953776041659" />
+        </AssociationConnector>
+        <AssociationConnector Association="testModel1.fk_like_news_news" ManuallyRouted="false">
+          <ConnectorPoint PointX="7.5" PointY="14.932444661458334" />
+          <ConnectorPoint PointX="6.125" PointY="14.932444661458334" />
+        </AssociationConnector>
+        <AssociationConnector Association="testModel1.fk_theme_id" ManuallyRouted="false">
+          <ConnectorPoint PointX="4.75" PointY="6.02019037109375" />
+          <ConnectorPoint PointX="6.375" PointY="6.02019037109375" />
+          <ConnectorPoint PointX="6.375" PointY="7.375" />
+        </AssociationConnector>
+        <AssociationConnector Association="testModel1.fk_theme_id_stat" ManuallyRouted="false">
+          <ConnectorPoint PointX="3.25" PointY="6.1439925130208337" />
+          <ConnectorPoint PointX="2.25" PointY="6.1439925130208337" />
+        </AssociationConnector>
+      </Diagram>
+    </Diagrams>
+  </Designer>
+</edmx:Edmx>

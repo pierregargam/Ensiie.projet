@@ -1,0 +1,119 @@
+﻿@model Ensiie.projet3.Models.SomeViewModel
+
+@{
+    ViewBag.Title = "Home Page";
+    
+}
+
+@if ((HttpContext.Current.Session["id"] != null) && ((int)HttpContext.Current.Session["id"] != 0))
+{
+
+    /*----------------------------------------------------*/
+    <article>
+    <aside class="my_themes">
+    <p>
+    @Html.ActionLink("Créer un nouveau thème?", "../Theme/Create")
+    </p>
+    @if (Model.themes.Count() != 0)
+    { 
+        <h4>Voici les thèmes auxquels vous êtes abonné:</h4>
+        <ul>
+        @foreach (var item2 in Model.themes)
+        {
+        <li>
+            @Html.DisplayFor(modelItem => item2.texte)
+            @Html.ActionLink(" Consulter", "../Message/Index", new { id = item2.id })
+        </li> 
+        }
+        </ul>
+    }
+    else
+    {
+        <p>Vous n'êtes abonnée à aucun thème.</p>
+    }
+    </aside>
+    <aside class="my_news">
+    <h4>@Html.ActionLink("Poster une nouvelle", "../News/Create", new { id = HttpContext.Current.Session["id"] })</h4>
+    @if (Model.news.Count() != 0)
+    {
+
+        <h6>Voici le flux d'actualité du RSE</h6>
+
+        foreach (var item in Model.news.OrderBy(a => a.dating))
+        {
+            Ensiie.projet3.Models.access a = new Ensiie.projet3.Models.access();
+            
+            <p><table width="50%">
+            <tbody><tr><td>
+                Auteur: @Html.DisplayFor(modelItem => item.Agent.name)<br />
+                Posté le: @Html.DisplayFor(modelItem => item.dating.Value)
+
+                <BR /><BR /><strong><article>@Html.DisplayFor(modelItem => item.texte)</article></strong><BR>
+
+                @if (
+                    ((HttpContext.Current.Session["log_admin"] != null) && ((int)HttpContext.Current.Session["log_admin"] == 1))
+                    ||
+                    (a.verif_agent_has_news(item.id, (int)HttpContext.Current.Session["id"]))
+                    )
+                {
+                    @Html.ActionLink(" ", "../News/Delete", new { id = item.id }, new { @class = "classname" })
+                }
+                
+            @if (Model.like.Where(l => l.news_id == item.id).Count() == 0)
+            {
+                @Html.ActionLink(" ", "../News/Like", new { id = item.id }, new { @class = "classlike" })
+            }
+            else
+            {
+             <p class="classlike">Vous aimez!</p>   
+            }
+
+            @if (Model.like_all.Where(l => l.news_id == item.id).Count() > 0)
+            {
+                <div id="like" class="like"><p><a href="#">Cliquez pour voir ceux qui aiment?</a></p>
+                <ul class="class_ul">
+                @foreach (var item3 in Model.like_all.Where(l => l.news_id == item.id))
+                {
+                    <li>@Html.DisplayFor(modelItem => item3.Agent.name)</li>
+                }
+                </ul>
+                </div>
+            }
+            
+            <p class="classlike">@Html.ActionLink("Voir les avis", "../Avis/Index", new { id = item.id })</p>
+            <p> @Html.ActionLink("Donnez votre avis", "../Avis/Create", new { id = item.id })</p>
+
+            </td></tr></tbody></table></p>
+        }
+
+    }
+    else
+    {
+        <p>Il n'y a aucune nouvelle.</p>
+    }
+    </aside>
+    </article>
+    /*----------------------------------------------------*/
+}
+else
+{
+<p>Authentifiez-vous!</p>
+}
+   
+
+<script>
+
+    $("div.like").children("ul").slideUp();
+
+    $("div.like").toggle(function () {
+        $(this).children("ul").slideDown();
+        $(this).children("p").children("a").text("Cliquez pour cacher ceux qui aiment?");
+
+
+    }, function () {
+        $(this).children("ul").slideUp();
+        $(this).children("p").children("a").text("Cliquez pour voir ceux qui aiment?");
+    });
+
+</script>
+

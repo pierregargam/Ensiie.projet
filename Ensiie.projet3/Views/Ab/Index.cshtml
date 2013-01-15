@@ -1,0 +1,44 @@
+﻿@model IEnumerable<Ensiie.projet3.Models.Theme_>
+
+@{
+    ViewBag.Title = "Abonnement";
+    
+    if((int)HttpContext.Current.Session["id"] != null)
+    {
+        int agent_id = (int)HttpContext.Current.Session["id"];    
+    }
+
+    Ensiie.projet3.Models.access a = new Ensiie.projet3.Models.access();
+}
+
+<h4>Abonnement aux thèmes</h4>
+
+@if (Model.Count() != 0)
+{
+    <h6>Voici les thèmes du RSE</h6>
+
+    foreach (var item in Model) {
+        
+        <p><table width="50%"><tbody><tr><td>
+        <strong><article>
+            @Html.DisplayFor(modelItem => item.texte)
+        </article></strong><BR>
+            @{
+                if (a.verif_ab(item.id, (int)HttpContext.Current.Session["id"]))
+                {
+                    @Html.ActionLink("Résilier l'abonnement ", "Delete", new { id = item.id })
+                }
+                else
+                {
+                    @Html.ActionLink("S'abonner", "Abonner_t", new { id = item.id })
+                }
+            }
+        <br />
+        @Html.ActionLink(" Consulter", "../Message/Index", new { id = item.id })
+        </td></tr></tbody></table></p>
+    }
+}
+else
+{
+    <p>Il n'y a aucun thème.</p>
+}

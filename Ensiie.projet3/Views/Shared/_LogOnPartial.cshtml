@@ -1,0 +1,28 @@
+﻿@if (
+        Request.IsAuthenticated 
+    && 
+        (HttpContext.Current.Session["id"] != null) 
+    && 
+        (
+            ((HttpContext.Current.Session["log_admin"] != null) && ((int)HttpContext.Current.Session["log_admin"] == 1))
+        ||
+            ((HttpContext.Current.Session["log_collabo"] != null) && ((int)HttpContext.Current.Session["log_collabo"] == 1))
+        ||
+            ((HttpContext.Current.Session["log_boss"] != null) && ((int)HttpContext.Current.Session["log_boss"] == 1))
+        )
+    )
+{
+
+    if ((HttpContext.Current.Session["log_admin"] != null) && ((int)HttpContext.Current.Session["log_admin"] == 1))
+    {    <text><strong>Vous êtes administrateur!</strong></text> }
+    else if ((HttpContext.Current.Session["log_collabo"] != null) && ((int)HttpContext.Current.Session["log_collabo"] == 1))
+    {    <text><strong>Vous êtes un collaborateur!</strong></text> }
+    else if ((HttpContext.Current.Session["log_boss"] != null) && ((int)HttpContext.Current.Session["log_boss"] == 1))
+    {    <text><strong>Vous êtes le boss!</strong></text>}
+    <br />                                            
+    <text>Bienvenue <strong>@User.Identity.Name</strong>!
+    [ @Html.ActionLink("Log Off", "LogOff", "Log_Register") ]</text>
+}
+else {
+    @:[ @Html.ActionLink("Log On", "LogOn", "Log_Register") ]
+}

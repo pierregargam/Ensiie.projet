@@ -1,0 +1,46 @@
+﻿@model IEnumerable<Ensiie.projet3.Models.Commentaire_>
+
+<h2>Commentaire</h2>
+ 
+@if (Model.Count() == 0)
+{
+    <p>Il n'y a aucun commentaire.</p>
+}
+
+else
+{          
+
+    foreach (var item in Model)
+    {
+        Ensiie.projet3.Models.access a = new Ensiie.projet3.Models.access();
+        <p><table width="50%">
+        <tbody><tr><td>
+
+        Thème: <font color="#ff3030" >@Html.DisplayFor(modelItem => item.Message.Theme.texte)</font><br />
+        Message: @Html.DisplayFor(modelItem => item.Message.texte)<br />
+        Auteur: @Html.DisplayFor(modelItem => item.Agent.name)<br />
+        Posté le: 
+        @Html.DisplayFor(modelItem => item.dating.Value)
+
+        <BR /><BR /><strong><article>
+            @Html.DisplayFor(modelItem => item.texte)
+        </article></strong><BR>
+
+            @if (
+                (HttpContext.Current.Session["log_admin"] != null && (int)HttpContext.Current.Session["log_admin"] == 1)
+                ||
+                (a.verif_agent_has_commentaire(item.id, (int)HttpContext.Current.Session["id"]))
+                )
+                {
+                    @Html.ActionLink(" ", "Delete", new { id = item.id }, new { @class = "classname" })
+                }
+        </td></tr></tbody></table></p>
+    }
+}
+
+@if (HttpContext.Current.Session["id_theme"] != null)
+{
+    <div><BR>
+        @Html.ActionLink("Retour au messages de ce thème", "../Message/Index", new { id = HttpContext.Current.Session["id_theme"] })
+    </div>   
+}

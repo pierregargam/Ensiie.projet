@@ -1,0 +1,52 @@
+﻿@model IEnumerable<Ensiie.projet3.Models.Agent_>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+    @Html.ValidationSummary(true,"Agent déjà existant!")
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table>
+    <tr>
+        <th>
+            name
+        </th>
+        <th>
+            first_name
+        </th>
+        <th>
+            type
+        </th>
+        <th>
+            password
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.first_name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.type)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.password)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.id })
+        </td>
+    </tr>
+}
+
+</table>
+<h6>NB: Vous ne pouvez pas supprimer/éditer "Admin" car c'est l'administrateur par défaut.</h6>

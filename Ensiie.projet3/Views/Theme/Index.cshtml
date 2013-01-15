@@ -1,0 +1,54 @@
+﻿@model Ensiie.projet3.Models.index_theme
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Thèmes</h2>
+
+<p>
+    @Html.ActionLink("Créer un nouveau thème?", "Create")
+</p>
+
+@if (Model.themes.Count() != 0)
+{
+    <h6>Voici les thèmes du RSE</h6>
+
+    <p><table width="50%">
+    <thead align="center"><tr><td>Nom du thème</td><td>Supprimer ce thème?</td><td>Abonné(s)</td></tr></thead>
+
+    
+    @foreach (var item in Model.themes) {
+        <tbody align="center"><tr><td>
+        <strong>
+            @Html.DisplayFor(modelItem => item.texte)
+        </strong><BR></td>
+
+        <td>@Html.ActionLink(" ", "Delete", new { id = item.id }, new { @class = "classname" })</td>
+
+        @if (Model.abonnés.Where(a => a.theme_id == item.id).Count() > 0)
+        {
+        <td class="ma_class">
+            @foreach (var abonne in Model.abonnés.Where(a => a.theme_id == item.id))
+            {
+                <table class="ma_table">
+                <td>@Html.DisplayFor(modelItem => abonne.Agent.name)</td>
+                <td>@Html.ActionLink(" ", "Delete_user_abon", new { id_theme = item.id, id_agent = abonne.collaborateur_id }, new { @class = "classname" })</td>
+                </table>
+            }
+        </td>
+        }
+
+        else
+        {
+            <td>Aucun abonné</td>
+        }
+
+        </tr></tbody>
+    }
+    </table></p>
+}
+
+else
+{
+    <p>Il n'y a aucun thème.</p>
+}

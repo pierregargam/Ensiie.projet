@@ -1,0 +1,32 @@
+﻿@model Ensiie.projet3.Models.News_
+
+@{
+    ViewBag.Title = "Create News";
+}
+
+<h2>Create News</h2>
+
+<script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
+
+@using (Html.BeginForm()) {
+    @Html.ValidationSummary(true)
+    <fieldset>
+        <legend>News_</legend>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.texte)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.texte)
+            @Html.ValidationMessageFor(model => model.texte)
+        </div>
+
+        @Html.HiddenFor(model => model.collaborateur_id, new { Value = HttpContext.Current.Session["id"] })
+        @Html.HiddenFor(model => model.dating, new { Value = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") })
+
+        <p>
+            <input type="submit" value="Create" />
+        </p>
+    </fieldset>
+}
